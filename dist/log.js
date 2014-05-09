@@ -4,10 +4,11 @@
     services.factory('Log', [
       'Store', function(Store) {
         return {
-          record: function(message) {
+          record: function(key, message) {
             var stamp;
             stamp = Date.now();
-            return Store('logs').save({
+            key += '_' + stamp;
+            return Store('logs').save(key, {
               time: stamp,
               message: message
             });
@@ -30,7 +31,7 @@
             }
             err[stamp] = body;
             console.warn('Error: ', trace);
-            return Store.save(err);
+            return Store.save('error_' + stamp, err);
           }
         };
       }

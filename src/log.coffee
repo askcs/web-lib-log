@@ -5,10 +5,11 @@ define ['services/services'], (services) ->
     'Store'
     (Store) ->
 
-      record: (message) ->
+      record: (key, message) ->
         stamp = Date.now()
+        key += '_' + stamp
 
-        Store('logs').save {
+        Store('logs').save key, {
           time: stamp
           message: message
         }
@@ -34,6 +35,6 @@ define ['services/services'], (services) ->
 
         console.warn 'Error: ', trace
 
-        Store.save err
+        Store.save 'error_' + stamp, err
   ]
   return
